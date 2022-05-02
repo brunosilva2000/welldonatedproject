@@ -2,16 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:welldonatedproject/app/sign_in/email_sign_in_page.dart';
 import 'package:welldonatedproject/app/sign_in/sign_in_button.dart';
+import 'package:welldonatedproject/services/auth.dart';
 
 
 
 class SignInPage extends StatelessWidget {
+  SignInPage({required this.auth});
+  final AuthBase auth;
 
   void _signInWithEmail(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         fullscreenDialog: true,
-        builder: (context) => EmailSignInPage(),
+        builder: (context) => EmailSignInPage(auth: auth),
       ),
     );
   }
@@ -19,7 +22,7 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Time Tracker'),
+        title: Text('Well Donated'),
         elevation: 2.0,
       ),
       body: _buildContent(context),

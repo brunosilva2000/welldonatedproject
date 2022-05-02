@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:welldonatedproject/common_widgets/form_submit_button.dart';
+import 'package:welldonatedproject/services/auth.dart';
 
-enum EnailSignInFormType { signIn, register }
+enum EmailSignInFormType { signIn, register }
 
 class EmailSignInForm extends StatefulWidget {
+
+  EmailSignInForm({required this.auth});
+  final AuthBase auth;
 
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
@@ -14,26 +18,36 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  EnailSignInFormType _formType = EnailSignInFormType.signIn;
+  String get _email => _emailController.text;
+  String get _password => _passwordController.text;
+  EmailSignInFormType _formType = EmailSignInFormType.signIn;
 
-  void _submit() {
-    print('email: ${_emailController.text}, password: ${_passwordController.text}');
-
+  void _submit() async {
+    try {
+      if (_formType == EmailSignInFormType.signIn) {
+        await widget.auth.signInWithEmailAndPassword(_email, _password);
+      } else {
+        await widget.auth.createUserWithEmailAndPassword(_email, _password);
+      }
+      Navigator.of(context).pop();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void _toggleFormType() {
     setState(() {
-      _formType = _formType == EnailSignInFormType.signIn ?
-      EnailSignInFormType.register : EnailSignInFormType.signIn;
+      _formType = _formType == EmailSignInFormType.signIn ?
+      EmailSignInFormType.register : EmailSignInFormType.signIn;
     });
     _emailController.clear();
     _passwordController.clear();
   }
 
   List<Widget> _buildChildren() {
-    final primaryText = _formType == EnailSignInFormType.signIn ?
+    final primaryText = _formType == EmailSignInFormType.signIn ?
         'Sign in' : 'Create an account';
-    final secondaryText = _formType == EnailSignInFormType.signIn ?
+    final secondaryText = _formType == EmailSignInFormType.signIn ?
     'Need an account? Register' : 'Have an account? Sign in';
 
     return [
