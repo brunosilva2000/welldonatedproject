@@ -1,14 +1,23 @@
+import 'package:auth/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:welldonatedproject/app/sign_in/email_sign_in_page.dart';
 import 'package:welldonatedproject/app/sign_in/sign_in_button.dart';
 import 'package:welldonatedproject/services/auth.dart';
 
-
-
 class SignInPage extends StatelessWidget {
-  SignInPage({required this.auth});
+  const SignInPage({Key? key, required this.auth, required this.onSignIn}) : super(key: key);
   final AuthBase auth;
+  final void Function(User?) onSignIn;
+
+  Future<void> _signInAnonymously(BuildContext context) async {
+    try {
+      final userCredentials = await FirebaseAuth.instance.signInAnonymously();
+      onSignIn(userCredentials.user);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   void _signInWithEmail(BuildContext context) {
     Navigator.of(context).push(
@@ -18,6 +27,7 @@ class SignInPage extends StatelessWidget {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +85,9 @@ class SignInPage extends StatelessWidget {
             text: 'Go Anonymous',
             textColor: Colors.black,
             color: Colors.lime,
-            onPressed: () {},
+            onPressed: () {
+              _signInAnonymously(context);
+            },
           ),
         ],
       ),

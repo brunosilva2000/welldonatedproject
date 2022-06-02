@@ -7,7 +7,7 @@ class Job {
 
   factory Job.fromMap(Map<String, dynamic> data) {
     if (data == null) {
-      return null;
+      ;
     }
     final String name = data['name'];
     final int ratePerHour = data['ratePerHour'];

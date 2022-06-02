@@ -5,7 +5,6 @@ import 'package:welldonatedproject/services/auth.dart';
 enum EmailSignInFormType { signIn, register }
 
 class EmailSignInForm extends StatefulWidget {
-
   EmailSignInForm({required this.auth});
   final AuthBase auth;
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:welldonatedproject/services/auth.dart';
-import 'app/sign_in/sign_in_page.dart';
+import 'package:welldonatedproject/app/landing_page.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: SignInPage(auth: Auth()),
+      home: LandingPage(),
     );
   }
 }
