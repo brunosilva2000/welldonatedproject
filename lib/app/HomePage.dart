@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:welldonatedproject/common_widgets/show_alert_dialog.dart';
-import 'package:welldonatedproject/services/auth.dart';
+import 'package:welldonatedproject/services/auth_provider.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required this.auth}) : super(key: key);
-  final AuthBase auth;
 
-
-  Future<void> _signOut() async {
+  Future<void> _signOut(BuildContext context) async {
     try {
+      final auth = AuthProvider.of(context);
       await auth.signOut();
     } catch (e) {
       print(e.toString());
@@ -24,7 +22,7 @@ class HomePage extends StatelessWidget {
         defaultActionText: 'Terminar sessão');
 
     if (didRequestSignOut == true) {
-      _signOut();
+      _signOut(context);
     }
   }
 
