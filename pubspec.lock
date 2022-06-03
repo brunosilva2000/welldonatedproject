@@ -288,7 +288,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.3"
+    version: "6.0.3"
   quiver:
     dependency: transitive
     description:

@@ -1,9 +1,12 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:welldonatedproject/app/sign_in/validators.dart';
 import 'package:welldonatedproject/common_widgets/form_submit_button.dart';
 import 'package:welldonatedproject/common_widgets/show_alert_dialog.dart';
-import 'package:welldonatedproject/services/auth_provider.dart';
+import 'package:welldonatedproject/common_widgets/show_exception_alert_dialog.dart';
+import 'package:welldonatedproject/services/auth.dart';
+
 
 enum EmailSignInFormType { signIn, register }
 
@@ -25,25 +28,32 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   bool _submitted = false;
   bool _isLoading = false;
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
   void _submit() async {
     setState(() {
       _submitted = true;
       _isLoading = true;
     });
     try {
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
       if (_formType == EmailSignInFormType.signIn) {
         await auth.signInWithEmailAndPassword(_email, _password);
       } else {
         await auth.createUserWithEmailAndPassword(_email, _password);
       }
       Navigator.of(context).pop();
-    } catch (e) {
-      showAlertDialog(context,
+    } on FirebaseAuthException catch (e) {
+      showExceptionAlertDialog(context,
           title: 'Sign in failed',
-          content: e.toString(),
-          defaultActionText: 'OK',
-          cancelActionText: '');
+          exception: e);
     } finally {
       setState(() {
         _isLoading = false;
