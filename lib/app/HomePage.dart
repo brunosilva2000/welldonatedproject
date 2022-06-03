@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:welldonatedproject/common_widgets/show_alert_dialog.dart';
 import 'package:welldonatedproject/services/auth.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required this.auth, required this.onSignOut}) : super(key: key);
+  const HomePage({Key? key, required this.auth}) : super(key: key);
   final AuthBase auth;
-  final VoidCallback onSignOut;
+
 
   Future<void> _signOut() async {
     try {
       await auth.signOut();
-      onSignOut();
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future<void> _confirmSignOut(BuildContext context) async {
+    final didRequestSignOut = await showAlertDialog(
+        context,
+        title: 'Terminar Sessão',
+        content: 'Tem a certeza que pretende terminar a sessão?',
+        cancelActionText: 'Cancelar',
+        defaultActionText: 'Terminar sessão');
+
+    if (didRequestSignOut == true) {
+      _signOut();
     }
   }
 
@@ -29,7 +42,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            onPressed: _signOut,
+            onPressed: () => _confirmSignOut(context),
           ),
         ],
       ),
