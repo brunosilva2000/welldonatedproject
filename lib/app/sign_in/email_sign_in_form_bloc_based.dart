@@ -68,7 +68,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
     return [
       _buildEmailTextField(model!),
       SizedBox(height: 8.0),
-      _buildPasswordTextField(model!),
+      _buildPasswordTextField(model),
       SizedBox(height: 8.0),
       FormSubmitButton(
         text: model.primaryButtonText,
