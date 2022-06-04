@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:welldonatedproject/app/HomePage.dart';
+import 'package:welldonatedproject/app/home/jobs/pubs_page.dart';
 import 'package:welldonatedproject/app/sign_in/sign_in_page.dart';
 import 'package:welldonatedproject/services/auth.dart';
+import 'package:welldonatedproject/services/database.dart';
 
 class LandingPage extends StatelessWidget {
 
@@ -17,11 +18,13 @@ class LandingPage extends StatelessWidget {
           final User? user = snapshot.data;
           if (user == null) {
             return SignInPage.create(context);
-          } else {
-            return HomePage();
           }
+          return Provider<Database>(
+            create: (_) => FirestoreDatabase(uid: user.uid),
+            child: PubsPage(),
+          );
         }
-        return const Scaffold(
+        return Scaffold(
           body: Center(
             child: CircularProgressIndicator(),
           ),

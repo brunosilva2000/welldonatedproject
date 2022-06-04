@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           FlatButton(
             child: Text(
-              'Logout',
+              'Sair',
               style: TextStyle(
                 fontSize: 18.0,
                 color: Colors.white,

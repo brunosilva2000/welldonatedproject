@@ -72,7 +72,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       SizedBox(height: 8.0),
       FormSubmitButton(
         text: model.primaryButtonText,
-        onPressed: () => model.canSubmit,
+        onPressed: _submit,
       ),
       SizedBox(height: 8.0),
       FlatButton(
