@@ -9,7 +9,7 @@ class PubListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(pub.name),
+      title: Text(pub.titulo),
       trailing: Icon(Icons.chevron_right),
       onTap: onTap,
     );

@@ -16,12 +16,14 @@ class FirestoreDatabase implements Database {
   final _service = FirestoreService.instance;
 
   Future<void> setPub(Publicacao pub) => _service.setData(
-    path: APIPath.pub(uid, pub.id),
+    //path: APIPath.pub(uid, pub.id),
+    path: APIPath.post(pub.id),
     data: pub.toMap(),
   );
 
   Stream<List<Publicacao>> pubsStream() => _service.collectionStream(
-    path: APIPath.pubs(uid),
+    //path: APIPath.pubs(uid),
+    path: APIPath.posts(),
     builder: (data, documentId) => Publicacao.fromMap(data, documentId),
   );
 }
