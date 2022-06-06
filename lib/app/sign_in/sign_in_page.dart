@@ -35,7 +35,7 @@ class SignInPage extends StatelessWidget {
     }
     showExceptionAlertDialog(
       context,
-      title: 'Sign in failed',
+      title: 'Falha ao iniciar sessão',
       exception: exception,
     );
   }
@@ -87,7 +87,7 @@ class SignInPage extends StatelessWidget {
             height: 8.0,
           ),
           SignInButton(
-            text: 'Sign in with e-mail',
+            text: 'Iniciar sessão com e-mail',
             textColor: Colors.white,
             color: Colors.teal,
             onPressed: () => _signInWithEmail(context),
@@ -96,7 +96,7 @@ class SignInPage extends StatelessWidget {
             height: 8.0,
           ),
           Text(
-            'or',
+            'ou',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14.0, color: Colors.black87),
           ),
@@ -104,7 +104,7 @@ class SignInPage extends StatelessWidget {
             height: 8.0,
           ),
           SignInButton(
-            text: 'Go Anonymous',
+            text: 'Iniciar sessão como anónimo',
             textColor: Colors.black,
             color: Colors.lime,
             onPressed: () {
@@ -123,7 +123,7 @@ class SignInPage extends StatelessWidget {
       );
     }
     return Text(
-      'Sign in',
+      'Iniciar Sessão',
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 32.0,

@@ -47,7 +47,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
       await widget.bloc.submit();
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
-      showExceptionAlertDialog(context, title: 'Sign in failed', exception: e);
+      showExceptionAlertDialog(context, title: 'Falha ao iniciar sessão', exception: e);
     }
   }
 

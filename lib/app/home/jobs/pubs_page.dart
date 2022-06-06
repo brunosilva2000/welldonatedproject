@@ -88,7 +88,7 @@ class PubsPage extends StatelessWidget {
           return ListView(children: children);
         }
         if (snapshot.hasError) {
-          return Center(child: Text('Some error occurred'));
+          return Center(child: Text('Ocorreu um erro'));
         }
         return Center(child: CircularProgressIndicator());
       },

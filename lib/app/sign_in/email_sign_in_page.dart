@@ -7,7 +7,7 @@ class EmailSignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign In'),
+        title: Text('Iniciar sessão'),
         elevation: 2.0,
       ),
       body: SingleChildScrollView(

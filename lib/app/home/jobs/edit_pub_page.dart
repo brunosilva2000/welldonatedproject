@@ -8,7 +8,9 @@ import 'package:welldonatedproject/services/auth.dart';
 import 'package:welldonatedproject/services/database.dart';
 
 class EditPubPage extends StatefulWidget {
-  const EditPubPage({Key? key, required this.database, this.pub, required this.uid}) : super(key: key);
+  const EditPubPage(
+      {Key? key, required this.database, this.pub, required this.uid})
+      : super(key: key);
   final Database database;
   final Publicacao? pub;
   final String uid;
@@ -18,7 +20,8 @@ class EditPubPage extends StatefulWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => EditPubPage(database: database, pub: pub, uid: auth.currentUser!.uid),
+        builder: (context) => EditPubPage(
+            database: database, pub: pub, uid: auth.currentUser!.uid),
         fullscreenDialog: true,
       ),
     );
@@ -59,33 +62,31 @@ class _EditPubPageState extends State<EditPubPage> {
   Future<void> _submit() async {
     if (_validateAndSaveForm()) {
       try {
-        final pubs = await widget.database.pubsStream().first;
         final auth = Provider.of<AuthBase>(context, listen: false);
-        final allNames = pubs.map((pub) => pub.titulo).toList();
-        if (widget.pub != null) {
-          allNames.remove(widget.pub!.titulo);
-        }
-        if (allNames.contains(_titulo)) {
-          showAlertDialog(
-            context,
-            title: 'Name already used',
-            content: 'Please choose a different job name',
-            defaultActionText: 'OK', cancelActionText: '',
-          );
-        } else {
-          final id = widget.pub?.id ?? documentIdFromCurrentDate();
-          final pub = Publicacao(id: id, titulo: _titulo, quantidade: _quantidade, descricao: _descricao, uid: auth.currentUser!.uid, name: auth.currentUser!.email);
-          await widget.database.setPub(pub);
-          Navigator.of(context).pop();
-        }
+
+        final id = widget.pub?.id ?? documentIdFromCurrentDate();
+        final pub = Publicacao(
+            id: id,
+            titulo: _titulo,
+            quantidade: _quantidade,
+            descricao: _descricao,
+            uid: auth.currentUser!.uid,
+            name: auth.currentUser!.email);
+        await widget.database.setPub(pub);
+        Navigator.of(context).pop();
       } on FirebaseException catch (e) {
         showExceptionAlertDialog(
           context,
-          title: 'Operation failed',
+          title: 'Operação falhou',
           exception: e,
         );
       }
     }
+  }
+
+  Future<void> _deletePost() async {
+    widget.database.deletePost(widget.pub!.id);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -93,11 +94,11 @@ class _EditPubPageState extends State<EditPubPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2.0,
-        title: Text(widget.pub == null ? 'New Job' : 'Edit Job'),
+        title: Text(widget.pub == null ? 'Novo anúncio' : 'Editar anúncio'),
         actions: <Widget>[
           FlatButton(
             child: Text(
-              'Save',
+              'Guardar',
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
             onPressed: _submit,
@@ -136,25 +137,33 @@ class _EditPubPageState extends State<EditPubPage> {
   List<Widget> _buildFormChildren() {
     return [
       TextFormField(
-        decoration: InputDecoration(labelText: 'Titulo'),
+        decoration: InputDecoration(labelText: 'Título'),
         initialValue: _titulo,
-        validator: (value) => value!.isNotEmpty ? null : 'Name can\'t be empty',
+        validator: (value) => value!.isNotEmpty ? null : 'Campo obrigatório!',
         onSaved: (value) => _titulo = value!,
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Quantidade'),
         initialValue: _quantidade != null ? '$_quantidade' : null,
         keyboardType: TextInputType.number,
+        validator: (value) => value!.isNotEmpty ? null : 'Campo obrigatório!',
         onSaved: (value) => _quantidade = value!,
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'Descricao'),
+        decoration: InputDecoration(labelText: 'Descrição'),
         initialValue: _descricao,
-        validator: (value) => value!.isNotEmpty ? null : 'Name can\'t be empty',
+        validator: (value) => value!.isNotEmpty ? null : 'Campo obrigatório!',
         onSaved: (value) => _descricao = value!,
       ),
       SizedBox(height: 12.0),
       Text(widget.pub == null ? '' : 'Criado por: $_email'),
+      widget.pub != null ? SizedBox(height: 20.0) : SizedBox(height: 0.0),
+      widget.pub != null
+          ? FlatButton(
+              child: Text('Eliminar'),
+              onPressed: () => _deletePost(),
+            )
+          : SizedBox(height: 0.0),
     ];
   }
 }

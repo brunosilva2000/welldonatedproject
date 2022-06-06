@@ -61,7 +61,7 @@ class _ViewPubPageState extends State<ViewPubPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2.0,
-        title: Text(widget.pub == null ? 'New Job' : 'Edit Job'),
+        title: Text(widget.pub == null ? 'Novo anúncio' : 'Editar anúncio'),
       ),
       body: _buildContents(),
       backgroundColor: Colors.grey[200],
@@ -95,9 +95,9 @@ class _ViewPubPageState extends State<ViewPubPage> {
   List<Widget> _buildFormChildren() {
     return [
       TextFormField(
-        decoration: InputDecoration(labelText: 'Titulo'),
+        decoration: InputDecoration(labelText: 'Título'),
         initialValue: _titulo,
-        validator: (value) => value!.isNotEmpty ? null : 'Name can\'t be empty',
+        validator: (value) => value!.isNotEmpty ? null : 'Campo obrigatório!',
         onSaved: (value) => _titulo = value!,
         readOnly: true,
       ),
@@ -105,13 +105,14 @@ class _ViewPubPageState extends State<ViewPubPage> {
         decoration: InputDecoration(labelText: 'Quantidade'),
         initialValue: _quantidade != null ? '$_quantidade' : null,
         keyboardType: TextInputType.number,
+        validator: (value) => value!.isNotEmpty ? null : 'Campo obrigatório!',
         onSaved: (value) => _quantidade = value!,
         readOnly: true,
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'Descricao'),
+        decoration: InputDecoration(labelText: 'Descrição'),
         initialValue: _descricao,
-        validator: (value) => value!.isNotEmpty ? null : 'Name can\'t be empty',
+        validator: (value) => value!.isNotEmpty ? null : 'Campo obrigatório!',
         onSaved: (value) => _descricao = value!,
         readOnly: true,
       ),
